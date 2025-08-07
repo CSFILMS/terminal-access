@@ -4,7 +4,7 @@ const prompt = document.getElementById('prompt');
 const boot = document.getElementById('boot');
 const video = document.getElementById('video');
 
-const correctPassword = 'openSesame';
+const correctPassword = 'A$$ANGE';
 
 const accessGrantedSequence = [
   'ACCESS GRANTED',
