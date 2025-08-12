@@ -1,94 +1,255 @@
-const passwordInput = document.getElementById('password');
-const msg = document.getElementById('msg');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Unscramble Demo</title>
+  <style>
+    body {
+      background: black;
+      color: #00FF00;
+      font-family: monospace;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+      white-space: pre-wrap;
+      line-height: 1.4;
+      user-select: none;
+    }
+    #unscramble {
+      cursor: default;
+      min-height: 20em; /* prevent jumping */
+    }
+    #prompt {
+      margin-top: 2em;
+      color: #0F0;
+      font-weight: bold;
+      visibility: hidden;
+      white-space: pre-wrap;
+      font-family: monospace;
+      line-height: 1.4;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+<pre id="unscramble"></pre>
+<pre id="prompt">
+
+
+
+
+PRESS SPACEBAR TO CONTINUE</pre>
+
+<script>
+const fullTextRaw = `THE SIX BILLION DOLLAR MAN
+
+A film by Eugene Jarecki
+
+
+
+
+ASSANGE’S STORY IS THAT OF A RELENTLESS FIGHT AGAINST AN EMPIRE THAT WANTS JOURNALISTS TO FEAR TELLING THE TRUTH
+
+FOR PEOPLE TO REMAIN IGNORANT TO HOW THE WORLD IS RUN
+
+MALIGNED BY THE MEDIA USING THE NARRATIVES COOKED UP BY THE ELITES
+
+HIS REPUTATION WENT FROM ‘FOLK HERO’
+
+TO ‘COWARDLY RAPIST’
+
+
+
+
+THIS DOCUMENTARY SHOWS
+
+THROUGH UNSEEN FOOTAGE OF JULIAN ASSANGE AND THE WIKILEAKS TEAM
+
+AND EXCLUSIVE INTERVIEWS
+
+THE REAL VERSION OF THE STORY
+
+
+
+
+
+You may think you know the story of Julian Assange — you don’t.
+
+Much of what has passed for “truth” in the mainstream narrative was shaped through a careful choreography of distortion, discrediting, and erasure. WikiLeaks, once a global lightning rod, has been buried beneath the churn of 24/7 news and state-sanctioned amnesia. But the mechanisms Assange exposed — surveillance, secrecy, impunity — haven’t vanished. They’ve been refined, institutionalised, and turned into infrastructure.
+Beginning in 2006 with the ideals of the cypherpunk movement, WikiLeaks built a secure publishing platform that bypassed traditional media gatekeepers. It published the infamous Collateral Murder video in 2010, followed by the Afghan and Iraq War Logs, and the Cablegate diplomatic archives — transforming how the public understood war, diplomacy, and power. In the process, Assange became both symbol and target.
+This film, shot over four years and during Assange’s detention in H.M. Belmarsh prison, traces the collapse of his sanctuary, the turning of political tides in Ecuador, and the global machinery that moved to silence him. With the stroke of a pen and a $6 billion IMF deal, his asylum ended. What followed was incarceration, isolation, and eventual release through a plea deal under the Espionage Act — a historic first for a publisher.
+ 
+Jarecki’s film is not a biography. It is a look at the system complicity, legal overreach, and the quiet erasure of dissent. At stake is not just the fate of a man, but the future of journalism itself.
+
+
+
+
+
+Crypto and Assange
+
+In 2010, WikiLeaks was financially blacklisted by Visa, Mastercard, PayPal. Assange turned to Bitcoin. "Bitcoin is the real Occupy Wall Street," he declared.
+
+Early BTC donations helped WikiLeaks survive.
+
+The Cypherpunk roots of Bitcoin and WikiLeaks are the same: privacy, decentralisation, freedom.
+
+AssangeDAO (2022) raised $53M in a week for Assange’s legal defense.
+
+The crypto world has already spoken.
+
+This film gives that voice a platform.
+
+
+
+
+
+A Film the Establishment Wants Quiet
+
+Our film challenges entrenched narratives. We have already met resistance in traditional media channels.
+
+Corporate platforms benefit from a distracted audience and a discredited Assange.
+
+We need decentralised support to bypass censorship and algorithmic throttling.
+
+You know the architecture of silence. Help us break it.
+
+
+
+
+
+Crypto and Assange: A Shared Genesis
+
+
+
+
+
+What We're Asking. 
+
+Initial crypto contribution to fund distribution, promotion  and an impact campaign.
+
+Public endorsement (if desired) to galvanise the broader crypto sphere.
+
+Strategic guidance or connection to Bitcoin-aligned distribution tools.
+
+We’re not looking for control—just for belief. Help us finish this story.
+
+
+
+
+
+Use of Funds
+
+Academy screenings and crypto-native distribution (NFT access passes, decentralised streaming)
+
+Legal and security support for contributors in high-risk zones
+
+Aggressive promotional push now that Assange is free and public attention is resurgent
+
+Transparency guaranteed: funds held in multi-sig wallet with real-time public ledger.
+
+
+
+
+
+Why You?
+
+Your voice has stood consistently for decentralisation, free speech, Bitcoin as resistance. You understand that speech without infrastructure is performative. 
+
+Assange’s prosecution is a prosecution of infrastructure: publishing, cryptography, financial independence.
+
+Supporting this film continues the work you’ve always done.
+
+
+This is the film that corporate platforms will try to forget. The crypto community—the only network that kept Assange alive—can now ensure he’s not erased.
+
+
+
+
+
+
+Let’s finish what we started.
+Contact:
+[Producers' Names]
+[Secure Email]
+[Wallet Address (BTC/ETH)]
+`;
+
+// Force uppercase for consistency
+const fullText = fullTextRaw.toUpperCase();
+
+// Split pages on FOUR consecutive newlines
+const pages = fullText.split('\n\n\n\n');
+
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,\'"?!-—:;\n';
+
+const el = document.getElementById('unscramble');
 const prompt = document.getElementById('prompt');
-const boot = document.getElementById('boot');
-const video = document.getElementById('video');
 
-const correctPassword = 'A$$ANGE';
+let currentPage = 0;
+let isAnimating = false;
 
-const accessGrantedSequence = [
-  'ACCESS GRANTED',
-  'DECRYPTING PAYLOAD...',
-  'LOADING VIDEO MODULE',
-  'EXECUTION AUTHORIZED',
-];
+function scrambleFastChunks(element, text, onComplete) {
+  let index = 0;
+  const chunkSize = 15; 
+  const scrambled = text.split('');
+  const length = text.length;
 
-const accessDeniedMessages = [
-  'ACCESS DENIED',
-  'UNAUTHORIZED ATTEMPT LOGGED',
-  'INVALID KEY SEQUENCE',
-  'SECURITY PROTOCOL ENGAGED',
-  'FINGERPRINT MISMATCH'
-];
-
-function scrambleText(element, finalText, callback) {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let iteration = 0;
-  const scrambled = finalText.split('');
+  isAnimating = true;
+  prompt.style.visibility = 'hidden';
 
   const interval = setInterval(() => {
-    const display = scrambled.map((char, i) => {
-      if (i < iteration) return finalText[i];
-      return chars[Math.floor(Math.random() * chars.length)];
-    });
+    let display = scrambled.slice();
+
+    for (let i = 0; i < index; i++) {
+      let start = i * chunkSize;
+      let end = start + chunkSize;
+      if (end > length) end = length;
+      for (let j = start; j < end; j++) {
+        display[j] = text[j];
+      }
+    }
+
+    for (let k = index * chunkSize; k < length; k++) {
+      if (/\s/.test(text[k])) {
+        display[k] = text[k];
+      } else {
+        display[k] = chars[Math.floor(Math.random() * chars.length)];
+      }
+    }
+
     element.textContent = display.join('');
+    index++;
 
-    if (iteration >= finalText.length) {
+    if ((index * chunkSize) >= length) {
       clearInterval(interval);
-      element.textContent = finalText;
-      if (callback) callback();
+      element.textContent = text;
+      isAnimating = false;
+      prompt.style.visibility = 'visible';
+      if (onComplete) onComplete();
     }
-
-    iteration += 1 / 2;
-  }, 30);
+  }, 80);
 }
 
-function runSequence(lines, element, delay = 500, done) {
-  let i = 0;
-  function next() {
-    if (i < lines.length) {
-      scrambleText(element, lines[i], () => {
-        setTimeout(next, delay);
-      });
-      i++;
-    } else {
-      if (done) done();
-    }
+function startPage(pageIndex) {
+  if (pageIndex >= pages.length) {
+    pageIndex = 0; // loop to start
   }
-  next();
+  currentPage = pageIndex;
+  el.textContent = '';
+  scrambleFastChunks(el, pages[pageIndex]);
 }
 
-// Handle password entry
-passwordInput.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
+window.addEventListener('keydown', e => {
+  if (e.key === ' ' && !isAnimating) {
     e.preventDefault();
-    const attempt = passwordInput.value;
-
-    if (attempt === correctPassword) {
-      passwordInput.style.display = 'none';
-      runSequence(accessGrantedSequence, msg, 700, () => {
-        video.style.display = 'block';
-        video.play();
-      });
-    } else {
-      const denial = accessDeniedMessages[Math.floor(Math.random() * accessDeniedMessages.length)];
-      scrambleText(msg, denial, () => {
-        passwordInput.value = '';
-      });
-    }
+    startPage(currentPage + 1);
   }
 });
 
-// Initial boot sequence
-const bootSequence = [
-  '[OK] BIOS checksum verified',
-  '[OK] Bootloader decrypted',
-  '[OK] Neural access bridge initialized',
-  '[OK] Proxy tunnels established',
-  '[OK] Identity hash resolved',
-  '[WARN] Clearance level: REDACTED'
-];
-
-runSequence(bootSequence, boot, 400, () => {
-  scrambleText(prompt, '> ENTER AUTHORIZATION PASSWORD:');
-});
+window.onload = () => {
+  startPage(0);
+};
+</script>
+</body>
+</html>
