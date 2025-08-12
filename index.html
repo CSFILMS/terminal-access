@@ -9,7 +9,7 @@
       color: #00FF00;
       font-family: monospace;
       padding: 20px;
-      font-size: 1.2em; /* Base font size for all text */
+      font-size: 1.2em; /* unified base font size */
     }
 
     #terminal {
@@ -23,18 +23,23 @@
       border: none;
       color: #00FF00;
       font-family: monospace;
-      font-size: 4em; /* Change password box size here */
+      font-size: 4em; /* password box size */
       outline: none;
       width: 100%;
     }
 
-    /* Boot sequence and prompt text */
-    #boot, #prompt, #msg {
-      font-size: 1.2em; /* General terminal text size */
+    #boot, #prompt {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    #msg-container {
+      font-size: 1.2em;
+      margin-top: 10px;
     }
 
     #video {
-      display: none;
+      display: block;
       margin-top: 20px;
       width: 100%;
       max-width: 700px;
@@ -50,13 +55,154 @@
     <div class="line" id="boot"></div>
     <div class="line" id="prompt"></div>
     <input type="password" id="password" autofocus />
-    <div class="line" id="msg"></div>
-    <video id="video" controls>
-      <source src="video.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+    <div id="msg-container"></div>
+    <!-- video will be injected dynamically -->
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const passwordInput = document.getElementById('password');
+    const prompt = document.getElementById('prompt');
+    const boot = document.getElementById('boot');
+    const msgContainer = document.getElementById('msg-container');
+    const terminal = document.getElementById('terminal');
+
+    const correctPassword = 'A$$ANGE';
+
+    const accessGrantedSequence = [
+      'ACCESS GRANTED',
+      'DECRYPTING PAYLOAD...',
+      'LOADING VIDEO MODULE',
+      'OPEN FILE?',           // clickable prompt
+      'EXECUTION AUTHORIZED',
+    ];
+
+    const accessDeniedMessages = [
+      'ACCESS DENIED',
+      'UNAUTHORIZED ATTEMPT LOGGED',
+      'INVALID KEY SEQUENCE',
+      'SECURITY PROTOCOL ENGAGED',
+      'FINGERPRINT MISMATCH'
+    ];
+
+    function scrambleTextAppend(finalText, callback, fast = false) {
+      if (fast) {
+        callback(finalText);
+        return;
+      }
+
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let iteration = 0;
+      const scrambled = finalText.split('');
+
+      const interval = setInterval(() => {
+        const display = scrambled.map((char, i) => {
+          if (i < iteration) return finalText[i];
+          return chars[Math.floor(Math.random() * chars.length)];
+        });
+        callback(display.join(''));
+
+        if (iteration >= finalText.length) {
+          clearInterval(interval);
+          callback(finalText);
+        }
+
+        iteration += 1;
+      }, 10);
+    }
+
+    function runSequence(lines, container, delay = 500, done) {
+      let i = 0;
+
+      function next() {
+        if (i < lines.length) {
+          const fastMode = i >= 3;
+          const lineDiv = document.createElement('div');
+          lineDiv.className = 'line';
+          container.appendChild(lineDiv);
+
+          scrambleTextAppend(lines[i], (text) => {
+            lineDiv.textContent = text;
+          }, fastMode);
+
+          if (lines[i] === 'OPEN FILE?') {
+            lineDiv.style.color = '#00FF00';
+            lineDiv.style.cursor = 'pointer';
+            lineDiv.onclick = () => {
+              window.open('lorem.html', '_blank');
+
+              if (!document.getElementById('video')) {
+                const videoEl = document.createElement('video');
+                videoEl.id = 'video';
+                videoEl.controls = true;
+                videoEl.style.marginTop = '20px';
+                videoEl.style.width = '100%';
+                videoEl.style.maxWidth = '700px';
+
+                const source = document.createElement('source');
+                source.src = 'video.mp4';
+                source.type = 'video/mp4';
+
+                videoEl.appendChild(source);
+                terminal.appendChild(videoEl);
+                videoEl.play();
+              }
+
+              lineDiv.onclick = null;
+              lineDiv.style.cursor = 'default';
+              lineDiv.style.color = '#00FF00';
+            };
+          } else {
+            lineDiv.style.color = '#00FF00';
+            lineDiv.style.cursor = 'default';
+            lineDiv.onclick = null;
+          }
+
+          i++;
+          setTimeout(next, fastMode ? 50 : delay);
+        } else {
+          if (done) done();
+        }
+      }
+
+      next();
+    }
+
+    passwordInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const attempt = passwordInput.value;
+
+        if (attempt === correctPassword) {
+          passwordInput.style.display = 'none';
+          runSequence(accessGrantedSequence, msgContainer, 700);
+        } else {
+          const denial = accessDeniedMessages[Math.floor(Math.random() * accessDeniedMessages.length)];
+          msgContainer.innerHTML = '';
+          const denialDiv = document.createElement('div');
+          denialDiv.className = 'line';
+          msgContainer.appendChild(denialDiv);
+          scrambleTextAppend(denial, (text) => {
+            denialDiv.textContent = text;
+          });
+          passwordInput.value = '';
+        }
+      }
+    });
+
+    const bootSequence = [
+      '[OK] BIOS checksum verified',
+      '[OK] Bootloader decrypted',
+      '[OK] Neural access bridge initialized',
+      '[OK] Proxy tunnels established',
+      '[OK] Identity hash resolved',
+      '[WARN] Clearance level: REDACTED'
+    ];
+
+    runSequence(bootSequence, boot, 400, () => {
+      scrambleTextAppend('> ENTER AUTHORIZATION PASSWORD:', (text) => {
+        prompt.textContent = text;
+      });
+    });
+  </script>
 </body>
 </html>
