@@ -9,7 +9,7 @@
       color: #00FF00;
       font-family: monospace;
       padding: 20px;
-      font-size: 1.2em; /* unified base font size */
+      font-size: 1.2em;
     }
 
     #terminal {
@@ -17,32 +17,32 @@
       margin: auto;
     }
 
-    /* Password input styling */
+    /* Input font size reduced to match rest of text */
     input {
       background: black;
       border: none;
       color: #00FF00;
       font-family: monospace;
-      font-size: 4em; /* password box size */
+      font-size: 1.2em;  /* Reduced from 4em */
       outline: none;
       width: 100%;
     }
 
-    #boot, #prompt {
+    /* Placeholder matches input text color and size */
+    input::placeholder {
+      color: #00FF00;
+      opacity: 1;
       font-size: 1.2em;
+    }
+
+    #boot, #prompt {
+      font-size: 1.5em;
       margin-bottom: 10px;
     }
 
     #msg-container {
       font-size: 1.2em;
       margin-top: 10px;
-    }
-
-    #video {
-      display: block;
-      margin-top: 20px;
-      width: 100%;
-      max-width: 700px;
     }
 
     .line {
@@ -54,9 +54,8 @@
   <div id="terminal">
     <div class="line" id="boot"></div>
     <div class="line" id="prompt"></div>
-    <input type="password" id="password" autofocus />
+    <input type="password" id="password" autofocus placeholder="ENTER PASSWORD" />
     <div id="msg-container"></div>
-    <!-- video will be injected dynamically -->
   </div>
 
   <script>
@@ -64,15 +63,12 @@
     const prompt = document.getElementById('prompt');
     const boot = document.getElementById('boot');
     const msgContainer = document.getElementById('msg-container');
-    const terminal = document.getElementById('terminal');
 
     const correctPassword = 'A$$ANGE';
 
     const accessGrantedSequence = [
       'ACCESS GRANTED',
-      'DECRYPTING PAYLOAD...',
-      'LOADING VIDEO MODULE',
-      'OPEN FILE?',           // clickable prompt
+      'OPEN FILE?',  // clickable
       'EXECUTION AUTHORIZED',
     ];
 
@@ -106,7 +102,7 @@
           callback(finalText);
         }
 
-        iteration += 1;
+        iteration++;
       }, 10);
     }
 
@@ -115,7 +111,7 @@
 
       function next() {
         if (i < lines.length) {
-          const fastMode = i >= 3;
+          const fastMode = i >= 2; // Faster after 2 lines
           const lineDiv = document.createElement('div');
           lineDiv.className = 'line';
           container.appendChild(lineDiv);
@@ -129,27 +125,8 @@
             lineDiv.style.cursor = 'pointer';
             lineDiv.onclick = () => {
               window.open('lorem.html', '_blank');
-
-              if (!document.getElementById('video')) {
-                const videoEl = document.createElement('video');
-                videoEl.id = 'video';
-                videoEl.controls = true;
-                videoEl.style.marginTop = '20px';
-                videoEl.style.width = '100%';
-                videoEl.style.maxWidth = '700px';
-
-                const source = document.createElement('source');
-                source.src = 'video.mp4';
-                source.type = 'video/mp4';
-
-                videoEl.appendChild(source);
-                terminal.appendChild(videoEl);
-                videoEl.play();
-              }
-
               lineDiv.onclick = null;
               lineDiv.style.cursor = 'default';
-              lineDiv.style.color = '#00FF00';
             };
           } else {
             lineDiv.style.color = '#00FF00';
@@ -159,8 +136,8 @@
 
           i++;
           setTimeout(next, fastMode ? 50 : delay);
-        } else {
-          if (done) done();
+        } else if (done) {
+          done();
         }
       }
 
@@ -170,14 +147,15 @@
     passwordInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
-        const attempt = passwordInput.value;
+        const attempt = passwordInput.value.trim();
+
+        msgContainer.innerHTML = '';
 
         if (attempt === correctPassword) {
           passwordInput.style.display = 'none';
           runSequence(accessGrantedSequence, msgContainer, 700);
         } else {
           const denial = accessDeniedMessages[Math.floor(Math.random() * accessDeniedMessages.length)];
-          msgContainer.innerHTML = '';
           const denialDiv = document.createElement('div');
           denialDiv.className = 'line';
           msgContainer.appendChild(denialDiv);
