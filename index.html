@@ -11,40 +11,32 @@
       padding: 20px;
       font-size: 1.2em;
     }
-
     #terminal {
       max-width: 700px;
       margin: auto;
     }
-
-    /* Input font size reduced to match rest of text */
     input {
       background: black;
       border: none;
       color: #00FF00;
       font-family: monospace;
-      font-size: 1.2em;  /* Reduced from 4em */
+      font-size: 1.2em;
       outline: none;
       width: 100%;
     }
-
-    /* Placeholder matches input text color and size */
     input::placeholder {
       color: #00FF00;
       opacity: 1;
       font-size: 1.2em;
     }
-
     #boot, #prompt {
       font-size: 1.5em;
       margin-bottom: 10px;
     }
-
     #msg-container {
       font-size: 1.2em;
       margin-top: 10px;
     }
-
     .line {
       margin: 5px 0;
     }
@@ -68,7 +60,8 @@
 
     const accessGrantedSequence = [
       'ACCESS GRANTED',
-      'OPEN FILE?',  // clickable
+      'OPEN FILE?',
+      'YES',
       'EXECUTION AUTHORIZED',
     ];
 
@@ -85,33 +78,28 @@
         callback(finalText);
         return;
       }
-
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       let iteration = 0;
       const scrambled = finalText.split('');
-
       const interval = setInterval(() => {
         const display = scrambled.map((char, i) => {
           if (i < iteration) return finalText[i];
           return chars[Math.floor(Math.random() * chars.length)];
         });
         callback(display.join(''));
-
         if (iteration >= finalText.length) {
           clearInterval(interval);
           callback(finalText);
         }
-
         iteration++;
       }, 10);
     }
 
     function runSequence(lines, container, delay = 500, done) {
       let i = 0;
-
       function next() {
         if (i < lines.length) {
-          const fastMode = i >= 2; // Faster after 2 lines
+          const fastMode = i >= 2;
           const lineDiv = document.createElement('div');
           lineDiv.className = 'line';
           container.appendChild(lineDiv);
@@ -120,7 +108,7 @@
             lineDiv.textContent = text;
           }, fastMode);
 
-          if (lines[i] === 'OPEN FILE?') {
+          if (lines[i] === 'OPEN FILE?' || lines[i].trim() === 'YES') {
             lineDiv.style.color = '#00FF00';
             lineDiv.style.cursor = 'pointer';
             lineDiv.onclick = () => {
@@ -128,6 +116,9 @@
               lineDiv.onclick = null;
               lineDiv.style.cursor = 'default';
             };
+            if (lines[i].trim() === 'YES') {
+              lineDiv.style.marginLeft = '2ch'; // indent
+            }
           } else {
             lineDiv.style.color = '#00FF00';
             lineDiv.style.cursor = 'default';
@@ -140,7 +131,6 @@
           done();
         }
       }
-
       next();
     }
 
@@ -148,9 +138,7 @@
       if (e.key === 'Enter') {
         e.preventDefault();
         const attempt = passwordInput.value.trim();
-
         msgContainer.innerHTML = '';
-
         if (attempt === correctPassword) {
           passwordInput.style.display = 'none';
           runSequence(accessGrantedSequence, msgContainer, 700);

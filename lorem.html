@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Unscramble Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
       background: black;
@@ -23,53 +24,37 @@
       margin-top: 2em;
       color: #0F0;
       font-weight: bold;
-      visibility: hidden;
+      visibility: hidden; /* shown after each animation finishes */
       white-space: pre-wrap;
       font-family: monospace;
       line-height: 1.4;
       user-select: none;
-    }
-    #endVideo {
-      display: none;
-      margin-top: 20px;
-      max-width: 100%;
-      outline: none;
     }
   </style>
 </head>
 <body>
 
 <pre id="unscramble"></pre>
-<pre id="prompt">
-
-
-PRESS SPACEBAR TO CONTINUE</pre>
-
-<video id="endVideo" width="640" height="360" controls>
-  <source src="video.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<pre id="prompt">PRESS SPACEBAR TO CONTINUE</pre>
 
 <script>
+/* ================== CONTENT ================== */
 const fullTextRaw = `THE SIX BILLION DOLLAR MAN
 
 A film by Eugene Jarecki
 
 
 
-ASSANGE’S STORY IS THAT OF A RELENTLESS FIGHT 
 
-AGAINST AN EMPIRE THAT WANTS 
+ASSANGE’S STORY IS THAT OF A RELENTLESS 
+
+FIGHT AGAINST AN EMPIRE THAT WANTS 
 
 JOURNALISTS TO FEAR TELLING THE TRUTH
 
-
 FOR PEOPLE TO REMAIN IGNORANT 
 
-TO HOW THE WORLD IS TRULY RUN
-
-
-
+TO HOW THE WORLD IS RUN
 
 
 
@@ -82,48 +67,50 @@ NARRATIVES COOKED UP BY THE ELITES
 
 HIS REPUTATION WENT FROM ‘FOLK HERO’
 
-TO ‘COWARDLY RAPIST’ RIGHT AFTER 
-
-EXPOSING WAR CRIMES
+TO ‘COWARDLY RAPIST’
 
 
 
 
+THIS DOCUMENTARY USES UNSEEN FOOTAGE 
 
+OF JULIAN ASSANGE AND THE WIKILEAKS TEAM
 
+AS WELL AS EXCLUSIVE INTERVIEWS
 
-
-
-THIS DOCUMENTARY SHOWS
-
-THROUGH UNSEEN FOOTAGE OF JULIAN ASSANGE AND THE WIKILEAKS TEAM
-
-AND EXCLUSIVE INTERVIEWS
-
-THE REAL VERSION OF THE STORY
-
-
-
-
-You may think you know the story of Julian Assange.
-
-You don’t.
-
-Much of what has passed for “truth” in the mainstream narrative
-
-was shaped through a careful choreography of 
-
-distortion, discrediting, and erasure. 
+TO TELL THE REAL VERSION OF THE STORY
 
 
 
 
 
-WikiLeaks, once a global lightning rod, 
+You may think you know 
 
-has been buried beneath the churn of 
+the story of Julian Assange 
 
-24/7 news and state-sanctioned amnesia. 
+
+ you don’t.
+
+
+
+
+Much of what has passed for “truth” 
+
+in the mainstream narrative 
+
+was shaped through a careful choreography 
+
+of distortion, discrediting, and erasure. 
+
+
+
+
+
+WikiLeaks, once a global lightning rod,
+
+has been buried beneath the churn of 24/7 news 
+
+and state-sanctioned amnesia. 
 
 
 
@@ -131,28 +118,19 @@ has been buried beneath the churn of
 
 But the mechanisms Assange exposed 
 
-surveillance
-secrecy
-impunity
-
-haven’t vanished. 
-
-
-
+surveillance, secrecy, impunity haven’t vanished. 
 
 They’ve been refined, institutionalised, 
 
 and turned into infrastructure.
 
-Beginning in 2006 with the ideals of 
-
-the cypherpunk movement,   
 
 
 
 
+Beginning in 2006 with the ideals of
 
-
+the cypherpunk movement, 
 
 WikiLeaks built a secure publishing platform 
 
@@ -162,29 +140,46 @@ that bypassed traditional media gatekeepers.
 
 
 
-It published the infamous Collateral Murder video in 2010, 
 
-followed by the Afghan and Iraq War Logs, 
+It published the infamous 
 
-and the Cablegate diplomatic archives
+Collateral Murder video in 2010, followed by 
+
+the Afghan and Iraq War Logs, 
+
+and the Cablegate diplomatic archives, 
 
 transforming how the public understood 
 
-war, diplomacy, and power. 
+war, 
+diplomacy, 
+and power. 
 
 
 
 
 
-In the process, Assange became both symbol and target.
+
+In the process, 
+
+Assange became both symbol and target.
+
+
+
+
+
+
 
 This film, shot over four years and during 
 
 Assange’s detention in H.M. Belmarsh prison, 
 
-traces the collapse of his sanctuary, the turning of political tides 
+traces the collapse of his sanctuary, 
 
-in Ecuador, and the global machinery that moved to silence him. 
+the turning of political tides in Ecuador, 
+
+and the global machinery that moved to silence him. 
+
 
 
 
@@ -196,34 +191,18 @@ a $6 billion IMF deal,
 
 his asylum ended. 
 
+What followed was
+incarceration, 
+isolation, 
 
-
-
-
-
-What followed was 
-
-incarceration, isolation, and eventual release 
-
-through a plea deal under the Espionage Act...
+and eventual release through a plea deal 
+under the Espionage Act 
 
 a historic first for a publisher.
 
 
 
 
-
-
-Jarecki’s film is not a biography. 
-
-It is a look at the system complicity, legal overreach, 
-
-and the quiet erasure of dissent. 
-
-
-At stake is not just the fate of a man, 
-
-but the future of journalism itself.
 
 
 
@@ -236,15 +215,19 @@ Crypto and Assange
 
 
 
+In 2010, WikiLeaks was 
 
-In 2010, WikiLeaks was financially blacklisted by 
+financially blacklisted by 
 
-Visa, Mastercard, PayPal. 
+Visa, 
+Mastercard, 
+PayPal. 
 
 Assange turned to Bitcoin. 
 
-
 "Bitcoin is the real Occupy Wall Street," he declared.
+
+
 
 
 
@@ -254,14 +237,19 @@ Early BTC donations helped WikiLeaks survive.
 
 The Cypherpunk roots of Bitcoin and WikiLeaks are the same: 
 
+privacy, 
+decentralisation, 
+freedom.
 
-privacy, decentralisation, freedom.
+AssangeDAO (2022) raised $53M in a week 
+
+for Assange’s legal defense.
 
 
 
 
 
-AssangeDAO (2022) raised $53M in a week for Assange’s legal defense.
+
 
 The crypto world has already spoken.
 
@@ -271,15 +259,46 @@ This film gives that voice a platform.
 
 
 
+
+
+
+A Film the Establishment Wants Quiet
+
+
+
+
+
+
+
+
+
 Our film challenges entrenched narratives. 
 
-We have already met resistance in traditional media channels.
+We have already met resistance in 
 
-Corporate platforms benefit from a distracted audience and a discredited Assange.
+traditional media channels.
 
-We need decentralised support to bypass censorship and algorithmic throttling.
 
-You know the architecture of silence. Help us break it.
+
+
+
+
+Corporate platforms benefit from 
+
+a distracted audience and a discredited Assange.
+
+We need decentralised support 
+
+to bypass censorship and algorithmic throttling.
+
+You know the architecture of silence. 
+
+
+Help us break it.
+
+
+
+
 
 
 
@@ -291,13 +310,29 @@ What We're Asking.
 
 
 
-Initial crypto contribution to fund distribution, promotion  and an impact campaign.
 
-Public endorsement (if desired) to galvanise the broader crypto sphere.
 
-Strategic guidance or connection to Bitcoin-aligned distribution tools.
 
-We’re not looking for control—just for belief. Help us finish this story.
+Initial crypto contribution to fund 
+
+distribution,
+promotion  and an 
+impact campaign.
+
+
+
+
+
+
+Public endorsement (if desired) 
+
+to galvanise the broader crypto sphere.
+
+Strategic guidance or connection to 
+
+Bitcoin-aligned distribution tools.
+
+
 
 
 
@@ -309,13 +344,30 @@ Use of Funds
 
 
 
-Academy screenings and crypto-native distribution (NFT access passes, decentralised streaming)
+
+
+Academy screenings and crypto-native distribution
+
+(NFT access passes, decentralised streaming)
 
 Legal and security support for contributors in high-risk zones
 
-Aggressive promotional push now that Assange is free and public attention is resurgent
+Aggressive promotional push now that 
 
-Transparency guaranteed: funds held in multi-sig wallet with real-time public ledger.+
+Assange is free and public attention is resurgent
+
+
+
+
+
+
+Transparency guaranteed: 
+
+funds held in multi-sig wallet with 
+
+real-time public ledger.
+
+
 
 
 
@@ -328,7 +380,10 @@ Why You?
 
 Your voice has stood consistently for 
 
-decentralisation, free speech, Bitcoin as resistance. 
+decentralisation, 
+free speech, 
+Bitcoin as resistance. 
+
 
 You understand that speech without infrastructure is performative. 
 
@@ -336,69 +391,67 @@ You understand that speech without infrastructure is performative.
 
 
 
-Assange’s prosecution is a prosecution of 
+Assange’s prosecution is a prosecution of
 
-infrastructure: publishing, cryptography, financial independence.
+infrastructure: 
+publishing, 
+cryptography, 
+financial independence.
 
 Supporting this film continues the work you’ve always done.
 
+
+
+
+
+
 This is the film that corporate platforms will try to forget. 
 
+The crypto community, the only network 
 
+that kept Assange alive
 
+can now ensure he’s not erased.
 
-
-
-The crypto community
-
-the only network that kept Assange alive—can now ensure he’s not erased.
 
 
 
 
 
 Let’s finish what we started.
+
+
+
+
+
+
 Contact:
 [Producers' Names]
 [Secure Email]
 [Wallet Address (BTC/ETH)]
 `;
 
-const rawPages = fullTextRaw.split('\n\n\n\n');
-
-function insertLineBreaks(text, wordsPerLine = 8) {
-  const lines = text.split('\n');
-  const processedLines = [];
-  for (const line of lines) {
-    const words = line.trim().split(/\s+/).filter(w => w.length > 0);
-    if (words.length === 0) {
-      processedLines.push('');
-      continue;
-    }
-    for (let i = 0; i < words.length; i += wordsPerLine) {
-      processedLines.push(words.slice(i, i + wordsPerLine).join(' '));
-    }
-  }
-  return processedLines.join('\n');
-}
-
-const pages = rawPages.map(page => insertLineBreaks(page.toUpperCase()));
+/* ============== PAGINATION / PREP ============== */
+const fullText = fullTextRaw.toUpperCase();
+// Split pages on FOUR OR MORE consecutive newlines, so loose spacing still works
+const pages = fullText.split(/\n{4,}/);
 
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,\'"?!-—:;\n';
 
 const el = document.getElementById('unscramble');
 const prompt = document.getElementById('prompt');
-const endVideo = document.getElementById('endVideo');
 
 let currentPage = 0;
 let isAnimating = false;
 
+/* ============== SCRAMBLE EFFECT ============== */
 function scrambleFastChunks(element, text, onComplete) {
   let index = 0;
-  const chunkSize = 15;
+  const chunkSize = 15; 
   const scrambled = text.split('');
   const length = text.length;
 
+  // Start with random glyphs wherever it's not whitespace
   for (let i = 0; i < length; i++) {
     scrambled[i] = /\s/.test(text[i]) ? text[i] : chars[Math.floor(Math.random() * chars.length)];
   }
@@ -407,23 +460,18 @@ function scrambleFastChunks(element, text, onComplete) {
   prompt.style.visibility = 'hidden';
 
   const interval = setInterval(() => {
-    let display = scrambled.slice();
+    const display = scrambled.slice();
 
+    // Reveal fixed-size chunks each tick
     for (let i = 0; i < index; i++) {
       let start = i * chunkSize;
-      let end = start + chunkSize;
-      if (end > length) end = length;
-      for (let j = start; j < end; j++) {
-        display[j] = text[j];
-      }
+      let end = Math.min(start + chunkSize, length);
+      for (let j = start; j < end; j++) display[j] = text[j];
     }
 
+    // Keep the rest scrambling (but preserve whitespace)
     for (let k = index * chunkSize; k < length; k++) {
-      if (/\s/.test(text[k])) {
-        display[k] = text[k];
-      } else {
-        display[k] = chars[Math.floor(Math.random() * chars.length)];
-      }
+      display[k] = /\s/.test(text[k]) ? text[k] : chars[Math.floor(Math.random() * chars.length)];
     }
 
     element.textContent = display.join('');
@@ -433,36 +481,53 @@ function scrambleFastChunks(element, text, onComplete) {
       clearInterval(interval);
       element.textContent = text;
       isAnimating = false;
+      prompt.textContent = 'PRESS SPACEBAR TO CONTINUE';
       prompt.style.visibility = 'visible';
       if (onComplete) onComplete();
     }
   }, 80);
 }
 
-function showPage(i) {
-  if (i >= pages.length) {
-    // End reached: hide text + prompt, show video
-    el.style.display = 'none';
-    prompt.style.display = 'none';
-    endVideo.style.display = 'block';
-    return;
+function startPage(pageIndex) {
+  if (pageIndex >= pages.length) {
+    pageIndex = 0; // loop back to start
   }
-  currentPage = i;
-  scrambleFastChunks(el, pages[i]);
-  el.style.display = 'block';
-  prompt.style.display = 'block';
-  endVideo.style.display = 'none';
+  currentPage = pageIndex;
+  el.textContent = '';
+  scrambleFastChunks(el, pages[pageIndex]);
 }
 
-window.addEventListener('keydown', e => {
-  if (e.code === 'Space' && !isAnimating) {
+/* ============== NAV: TAP/CLICK ANYWHERE ============== */
+// Prevent double-advance on touch devices firing multiple events
+let lastAdvance = 0;
+function safeAdvance() {
+  const now = Date.now();
+  if (now - lastAdvance < 350) return; // throttle
+  lastAdvance = now;
+  if (!isAnimating) startPage(currentPage + 1);
+}
+
+// Pointer (covers mouse + touch on modern browsers, including iOS 13+)
+document.addEventListener('pointerdown', (e) => {
+  // ignore if we're selecting text (just in case)
+  safeAdvance();
+}, { passive: true });
+
+// Fallback for older browsers without Pointer Events
+document.addEventListener('touchstart', safeAdvance, { passive: true });
+document.addEventListener('click', safeAdvance);
+
+// Keyboard fallback (desktop)
+window.addEventListener('keydown', (e) => {
+  if ((e.code === 'Space' || e.code === 'ArrowRight') && !isAnimating) {
     e.preventDefault();
-    showPage(currentPage + 1);
+    startPage(currentPage + 1);
   }
 });
 
+/* ============== INIT ============== */
 window.onload = () => {
-  showPage(0);
+  startPage(0);
 };
 </script>
 </body>
