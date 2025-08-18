@@ -35,157 +35,15 @@
 
 <pre id="unscramble"></pre>
 <pre id="prompt">
-
-
-
-
 PRESS SPACEBAR TO CONTINUE</pre>
 
 <script>
-const fullTextRaw = `THE SIX BILLION DOLLAR MAN
-
-A film by Eugene Jarecki
-
-
-
-
-ASSANGE’S STORY IS THAT OF A RELENTLESS FIGHT AGAINST AN EMPIRE THAT WANTS JOURNALISTS TO FEAR TELLING THE TRUTH
-
-FOR PEOPLE TO REMAIN IGNORANT TO HOW THE WORLD IS RUN
-
-MALIGNED BY THE MEDIA USING THE NARRATIVES COOKED UP BY THE ELITES
-
-HIS REPUTATION WENT FROM ‘FOLK HERO’
-
-TO ‘COWARDLY RAPIST’
-
-
-
-
-THIS DOCUMENTARY SHOWS
-
-THROUGH UNSEEN FOOTAGE OF JULIAN ASSANGE AND THE WIKILEAKS TEAM
-
-AND EXCLUSIVE INTERVIEWS
-
-THE REAL VERSION OF THE STORY
-
-
-
-
-
-You may think you know the story of Julian Assange — you don’t.
-
-Much of what has passed for “truth” in the mainstream narrative was shaped through a careful choreography of distortion, discrediting, and erasure. WikiLeaks, once a global lightning rod, has been buried beneath the churn of 24/7 news and state-sanctioned amnesia. But the mechanisms Assange exposed — surveillance, secrecy, impunity — haven’t vanished. They’ve been refined, institutionalised, and turned into infrastructure.
-Beginning in 2006 with the ideals of the cypherpunk movement, WikiLeaks built a secure publishing platform that bypassed traditional media gatekeepers. It published the infamous Collateral Murder video in 2010, followed by the Afghan and Iraq War Logs, and the Cablegate diplomatic archives — transforming how the public understood war, diplomacy, and power. In the process, Assange became both symbol and target.
-This film, shot over four years and during Assange’s detention in H.M. Belmarsh prison, traces the collapse of his sanctuary, the turning of political tides in Ecuador, and the global machinery that moved to silence him. With the stroke of a pen and a $6 billion IMF deal, his asylum ended. What followed was incarceration, isolation, and eventual release through a plea deal under the Espionage Act — a historic first for a publisher.
- 
-Jarecki’s film is not a biography. It is a look at the system complicity, legal overreach, and the quiet erasure of dissent. At stake is not just the fate of a man, but the future of journalism itself.
-
-
-
-
-
-Crypto and Assange
-
-In 2010, WikiLeaks was financially blacklisted by Visa, Mastercard, PayPal. Assange turned to Bitcoin. "Bitcoin is the real Occupy Wall Street," he declared.
-
-Early BTC donations helped WikiLeaks survive.
-
-The Cypherpunk roots of Bitcoin and WikiLeaks are the same: privacy, decentralisation, freedom.
-
-AssangeDAO (2022) raised $53M in a week for Assange’s legal defense.
-
-The crypto world has already spoken.
-
-This film gives that voice a platform.
-
-
-
-
-
-A Film the Establishment Wants Quiet
-
-Our film challenges entrenched narratives. We have already met resistance in traditional media channels.
-
-Corporate platforms benefit from a distracted audience and a discredited Assange.
-
-We need decentralised support to bypass censorship and algorithmic throttling.
-
-You know the architecture of silence. Help us break it.
-
-
-
-
-
-Crypto and Assange: A Shared Genesis
-
-
-
-
-
-What We're Asking. 
-
-Initial crypto contribution to fund distribution, promotion  and an impact campaign.
-
-Public endorsement (if desired) to galvanise the broader crypto sphere.
-
-Strategic guidance or connection to Bitcoin-aligned distribution tools.
-
-We’re not looking for control—just for belief. Help us finish this story.
-
-
-
-
-
-Use of Funds
-
-Academy screenings and crypto-native distribution (NFT access passes, decentralised streaming)
-
-Legal and security support for contributors in high-risk zones
-
-Aggressive promotional push now that Assange is free and public attention is resurgent
-
-Transparency guaranteed: funds held in multi-sig wallet with real-time public ledger.
-
-
-
-
-
-Why You?
-
-Your voice has stood consistently for decentralisation, free speech, Bitcoin as resistance. You understand that speech without infrastructure is performative. 
-
-Assange’s prosecution is a prosecution of infrastructure: publishing, cryptography, financial independence.
-
-Supporting this film continues the work you’ve always done.
-
-
-This is the film that corporate platforms will try to forget. The crypto community—the only network that kept Assange alive—can now ensure he’s not erased.
-
-
-
-
-
-
-Let’s finish what we started.
-Contact:
-[Producers' Names]
-[Secure Email]
-[Wallet Address (BTC/ETH)]
-`;
-
-// Force uppercase for consistency
-const fullText = fullTextRaw.toUpperCase();
-
-// Split pages on FOUR consecutive newlines
-const pages = fullText.split('\n\n\n\n');
-
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,\'"?!-—:;\n';
-
 const el = document.getElementById('unscramble');
 const prompt = document.getElementById('prompt');
 
+let fullTextRaw = '';
+let pages = [];
 let currentPage = 0;
 let isAnimating = false;
 
@@ -240,16 +98,21 @@ function startPage(pageIndex) {
   scrambleFastChunks(el, pages[pageIndex]);
 }
 
+// Load external text file
+fetch('PitchText.txt')
+  .then(res => res.text())
+  .then(text => {
+    fullTextRaw = text.toUpperCase();
+    pages = fullTextRaw.split('\n\n\n\n'); // 4 consecutive newlines = page break
+    startPage(0); // start after text loads
+  });
+
 window.addEventListener('keydown', e => {
   if (e.key === ' ' && !isAnimating) {
     e.preventDefault();
     startPage(currentPage + 1);
   }
 });
-
-window.onload = () => {
-  startPage(0);
-};
 </script>
 </body>
 </html>
