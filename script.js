@@ -6,7 +6,7 @@
   <style>
     body {
       background: black;
-      color: #00FF00;
+      color: #D4D4D4;
       font-family: monospace;
       padding: 20px;
       max-width: 700px;
@@ -21,7 +21,7 @@
     }
     #prompt {
       margin-top: 2em;
-      color: #0F0;
+      color: #D4D4D4;
       font-weight: bold;
       visibility: hidden;
       white-space: pre-wrap;

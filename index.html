@@ -4,9 +4,13 @@
   <meta charset="UTF-8" />
   <title>Terminal Access</title>
   <style>
+	html {
+  font-size: 75%;
+}
+
     body {
       background: black;
-      color: #00FF00;
+      color: #D4D4D4;
       font-family: monospace;
       padding: 20px;
       font-size: 1.2em;
@@ -18,14 +22,14 @@
     input {
       background: black;
       border: none;
-      color: #00FF00;
+      color: #D4D4D4;
       font-family: monospace;
       font-size: 1.2em;
       outline: none;
       width: 100%;
     }
     input::placeholder {
-      color: #00FF00;
+      color: #D4D4D4;
       opacity: 1;
       font-size: 1.2em;
     }
@@ -109,7 +113,7 @@
           }, fastMode);
 
           if (lines[i] === 'OPEN FILE?' || lines[i].trim() === 'YES') {
-            lineDiv.style.color = '#00FF00';
+            lineDiv.style.color = '#D4D4D4';
             lineDiv.style.cursor = 'pointer';
             lineDiv.onclick = () => {
               window.open('lorem.html', '_blank');
@@ -120,7 +124,7 @@
               lineDiv.style.marginLeft = '2ch'; // indent
             }
           } else {
-            lineDiv.style.color = '#00FF00';
+            lineDiv.style.color = '#D4D4D4';
             lineDiv.style.cursor = 'default';
             lineDiv.onclick = null;
           }
